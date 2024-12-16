@@ -1,0 +1,77 @@
+# vsim -l clk2_countdown_fake.log -voptargs="+acc" work.clk2_countdown_fake -do "log -r /*;run -all; exit" 
+# Start time: 00:13:43 on Nov 25,2024
+# Loading work.clk2_countdown_fake
+# Loading work.testbench
+# Loading work.clock_system
+# Loading work.timer
+# Loading work.clk_sel
+# Loading work.counter
+# Loading work.compare
+# Loading work.rw_control
+# Loading work.half_adder
+# Loading work.full_adder
+# Loading work.cpu_model
+# log -r /*
+# run -all
+# =========================================================
+# ================ CLK2_TEST_DOWN_FAKE ====================
+# =========================================================
+# -STEP1- 
+# 
+# At 200, write data for TCR
+# 
+# At 211 start writing wdata='h00 to address = 8'h0
+# At 331 write transfer completed
+# At 351 start reading from address=8'h2
+# At 471 read transfer completed
+# At 491 start writing wdata='h080 to address = 8'h1
+# At 611 write transfer completed
+# ---------------------------------------------------
+# 
+# -STEP2- 
+# 
+# At 611, load new value that can be underflowed
+# 
+# At 671 start writing wdata='h0ff to address = 8'h0
+# At 791 write transfer completed
+# At 811 start writing wdata='h080 to address = 8'h1
+# At 931 write transfer completed
+# -STEP 3- 
+# 
+# At 950, start counting and check udf whether underflowed 
+# 
+# At 971 start writing wdata='h030 to address = 8'h1
+# At 1091 write transfer completed
+# At 1111 start reading from address=8'h2
+# At 1231 read transfer completed
+# At 1231, TSR = 8'h00, UNDERFLOW -PASS-
+# 
+# -------------------------------------------------------
+# 
+# -STEP4-
+# 
+# At 1231, clear TSR
+# 
+# At 1251 start writing wdata='h00 to address = 8'h2
+# At 1371 write transfer completed
+# -------------------------------------------------
+# 
+# -STEP5-
+# 
+# At 1371, read_data TSR
+# 
+# At 1391 start reading from address=8'h2
+# At 1511 read transfer completed
+# At 1511, TSR = 8'h00 
+# 
+# BIT UNDERFLOW CLEAR -PASS- 
+# 
+# -----------------------------------------------
+# 
+# =============================
+# ========= TEST PASSED =======
+# =============================
+# ** Note: $finish    : ../testcase/clk2_countdown_fake.v(100)
+#    Time: 2011 ps  Iteration: 0  Instance: /clk2_countdown_fake
+# End time: 00:13:43 on Nov 25,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
