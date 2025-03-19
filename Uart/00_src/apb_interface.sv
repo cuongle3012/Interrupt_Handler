@@ -123,11 +123,11 @@ module APB_Interface (
 
   //Adress decoder
   always @(*) begin
-    case (paddr[3:0])
-      4'b0000: reg_sel = 4'b0001;  //Data reg for transmiter
-      4'b0100: reg_sel = 4'b0010;  //Value for baudrate generator
-      4'b1000: reg_sel = 4'b0100;  //Enable signal reg
-      4'b1100: reg_sel = 4'b1000;  //Enable interrupt reg
+    case (paddr[15:0])
+      16'h0100: reg_sel = 4'b0001;  //Data reg for transmiter
+      16'h0101: reg_sel = 4'b0010;  //Value for baudrate generator
+      16'h0110: reg_sel = 4'b0100;  //Enable signal reg
+      16'h0111: reg_sel = 4'b1000;  //Enable interrupt reg
       default: reg_sel = 4'b0000;
     endcase
   end
@@ -167,11 +167,11 @@ module APB_Interface (
 
   //Read address decoder
   always @(*) begin
-    case (paddr[3:0])
-      4'b0000: prdata_reg = {24'd0, reg_data[7:0]};
-      4'b0100: prdata_reg = {24'd0, reg_bclk[7:0]};
-      4'b1000: prdata_reg = {26'd0, reg_en[6:0]};
-      4'b1100: prdata_reg = {28'd0, reg_thr[3:0]};
+    case (paddr[15:0])
+      16'h0100: prdata_reg = {24'd0, reg_data[7:0]};
+      16'h0101: prdata_reg = {24'd0, reg_bclk[7:0]};
+      16'h0110: prdata_reg = {26'd0, reg_en[6:0]};
+      16'h0111: prdata_reg = {28'd0, reg_thr[3:0]};
       default: prdata_reg = 32'b0;
     endcase
   end
