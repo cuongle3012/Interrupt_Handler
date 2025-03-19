@@ -18,6 +18,10 @@ module uart_transmitter_tb;
   wire tx_bclk_en;
   wire tx_thr;
 
+  // Internal variable to count txd changes
+  integer count_data_trans;
+  reg previous_txd; // To store the previous value of txd
+
   // Clock generation
   initial begin
     clk = 0;
@@ -45,6 +49,16 @@ module uart_transmitter_tb;
     .tx_thr(tx_thr)
   );
 
+  // Monitor txd changes and count them
+  always @(posedge clk or negedge resetn) begin
+    if (~resetn) begin
+      count_data_trans = 0; // Reset counter on reset
+    end else if (uut.counter==15) begin
+      // Count the change in txd
+      count_data_trans = count_data_trans + 1;
+    end
+  end
+
   // Test sequence
   initial begin
     // Initialize inputs
@@ -54,6 +68,8 @@ module uart_transmitter_tb;
     parity_type = 0;
     write_en = 0;
     tx_en = 0;
+    count_data_trans = 0; // Initialize the counter
+    previous_txd = 0; // Initialize the previous txd value
 
     // Reset pulse
     #20;
@@ -75,11 +91,15 @@ module uart_transmitter_tb;
 
     // Check results
     $display("Test with Even Parity");
+    $display("Data in: %0b", data_in);
+    $display("Data out: %0b", uut.data_temp);
     if (uut.data_temp == 9'b110100100) // Even parity bit = 1
       $display("PASS: Data transmitted with correct parity.");
     else
       $display("FAIL: Parity generation mismatch.");
 
+    // Display the count of txd changes
+    $display("Total txd changes: %d", count_data_trans);
 
     $stop;
   end
