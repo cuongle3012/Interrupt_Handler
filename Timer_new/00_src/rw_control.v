@@ -1,4 +1,4 @@
-`define WAIT_CYCLES 2
+// `define WAIT_CYCLES 2
 module rw_control (
     input pclk,
     input preset_n,
@@ -33,18 +33,14 @@ reg pready_reg;
 reg pslverr_reg;
 reg [7:0] prdata_reg;
 
-always @(posedge pclk or negedge preset_n) begin
-    if (!preset_n)
-        sel_reg <= 3'h0;  // Reset the selector register to 0 on reset
-    else begin
+always_comb begin
         case (paddr)
-            8'h00: sel_reg <= A;
-            8'h01: sel_reg <= B;
-            8'h02: sel_reg <= C;
-            default: sel_reg <= 3'h0;
+            8'h00: sel_reg = A;
+            8'h01: sel_reg = B;
+            8'h02: sel_reg = C;
+            default: sel_reg = 3'h0;
         endcase
     end
-end
 
 assign pslverr = pslverr_reg;
 
@@ -54,7 +50,7 @@ always @(posedge pclk or negedge preset_n) begin
     else if (!sel_reg)
         pslverr_reg <= 1'b1;
     else
-        pslverr_reg <= 1'b0;
+        pslverr_reg <= pslverr_reg;
 end
 
 always @(posedge pclk or negedge preset_n) begin
@@ -62,6 +58,7 @@ always @(posedge pclk or negedge preset_n) begin
         tdr_reg <= 8'h00;
     else if (pwrite && psel && penable && pready && sel_reg[0])
         tdr_reg <= pwdata;
+    else tdr_reg <= tdr_reg;
 end
 
 assign tdr = tdr_reg;
@@ -75,6 +72,7 @@ always @(posedge pclk or negedge preset_n) begin
         tcr_reg[4] <= pwdata[4];
         tcr_reg[1:0] <= pwdata[1:0];
     end
+    else tcr_reg <= tcr_reg;
 end
 
 // Output for internal module -> connect Timer Counter
@@ -90,6 +88,9 @@ always @(posedge pclk or negedge preset_n) begin
         tsr_reg[0] <= 1'b0;
     else if (ovf_trig)
         tsr_reg[0] <= 1'b1;
+    else if (clr_trig_reg[0])
+        tsr_reg[0] <= 1'b0;
+    else tsr_reg[0] <= tsr_reg[0];
 end
 
 always @(posedge pclk or negedge preset_n) begin
@@ -101,6 +102,7 @@ always @(posedge pclk or negedge preset_n) begin
         tsr_reg[1] <= 1'b1;
     else if (clr_trig_reg[1])
         tsr_reg[1] <= 1'b0;
+    else tsr_reg[1] <= tsr_reg[1];
 end
 
 assign clr_trig = clr_trig_reg;
@@ -108,35 +110,35 @@ assign clr_trig = clr_trig_reg;
 always @(*) begin
     if (psel && penable && (!pwrite) && pready) begin
         case (sel_reg)
-            3'h1: prdata_reg <= tdr_reg;
-            3'h2: prdata_reg <= {load, 1'b0, updown, en, 2'b00, cks};
-            3'h4: prdata_reg <= {6'b000000, tsr_reg[1:0]};
-            default: prdata_reg <= 8'h00;
+            3'h1: prdata_reg = tdr_reg;
+            3'h2: prdata_reg = {load, 1'b0, updown, en, 2'b00, cks};
+            3'h4: prdata_reg = {6'b000000, tsr_reg[1:0]};
+            default: prdata_reg = 8'h00;
         endcase
     end else
-        prdata_reg <= 8'h00;
+        prdata_reg = prdata_reg;
 end
 
 assign prdata = prdata_reg;
 
-always @(posedge pclk or negedge preset_n) begin
-    if (!preset_n) begin
-        pready_reg <= 1'b0;
-        count <= 3'b000;
-    end else if (psel && penable && (!count)) begin
-        pready_reg <= 1'b0;
-    end else if (psel) begin
-        if (count == `WAIT_CYCLES) begin
-            pready_reg <= 1'b1;
-            count <= 3'b0;
-        end else begin
-            pready_reg <= 1'b0;
-            count <= count + 1'b1;
-        end
-    end else
-        pready_reg <= 1'b0;
-end
+// always @(posedge pclk or negedge preset_n) begin
+//     if (!preset_n) begin
+//         pready_reg <= 1'b0;
+//         count <= 3'b000;
+//     end else if (psel && penable && (!count)) begin
+//         pready_reg <= 1'b0;
+//     end else if (psel) begin
+//         if (count == `WAIT_CYCLES) begin
+//             pready_reg <= 1'b1;
+//             count <= 3'b0;
+//         end else begin
+//             pready_reg <= 1'b0;
+//             count <= count + 1'b1;
+//         end
+//     end else
+//         pready_reg <= 1'b0;
+// end
 
-assign pready = pready_reg;
+assign pready = 1;
 
 endmodule
