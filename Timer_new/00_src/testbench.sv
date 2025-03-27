@@ -4,9 +4,9 @@ wire pclk, preset_n, test_clk_int;
 
 wire pwrite, psel, penable, pready, pslverr;
 
-wire [7:0] paddr, pwdata, prdata;
+wire [31:0] paddr, pwdata, prdata;
 
-wire [7:0] test_tdr, test_cnt, test_last_cnt;
+wire [31:0] test_tdr, test_cnt, test_last_cnt;
 
 wire [2:0] test_count;
 

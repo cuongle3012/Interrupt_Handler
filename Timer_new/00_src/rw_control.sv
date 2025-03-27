@@ -7,9 +7,9 @@ module rw_control (
     input penable,
     input ovf_trig,
     input udf_trig,
-    input [7:0] paddr,
-    input [7:0] pwdata,
-    output [7:0] prdata,
+    input [31:0] paddr,
+    input [31:0] pwdata,
+    output [31:0] prdata,
     output pready,
     output pslverr,
     output en,
@@ -17,7 +17,7 @@ module rw_control (
     output updown,
     output [1:0] clr_trig,
     output [1:0] cks,
-    output [7:0] tdr
+    output [31:0] tdr
 );
 
 parameter A = 3'b001;
@@ -27,17 +27,17 @@ parameter C = 3'b100;
 reg [1:0] clr_trig_reg;
 reg [2:0] sel_reg;
 reg [2:0] count;
-reg [7:0] tdr_reg, tcr_reg, tsr_reg;
+reg [31:0] tdr_reg, tcr_reg, tsr_reg;
 
 reg pready_reg;
 reg pslverr_reg;
-reg [7:0] prdata_reg;
+reg [31:0] prdata_reg;
 
 always_comb begin
         case (paddr)
-            8'h00: sel_reg = A;
-            8'h01: sel_reg = B;
-            8'h02: sel_reg = C;
+            32'h00000000: sel_reg = A;
+            32'h00000004: sel_reg = B;
+            32'h00000008: sel_reg = C;
             default: sel_reg = 3'h0;
         endcase
     end
@@ -55,7 +55,7 @@ end
 
 always @(posedge pclk or negedge preset_n) begin
     if (!preset_n)
-        tdr_reg <= 8'h00;
+        tdr_reg <= 32'b0;
     else if (pwrite && psel && penable && pready && sel_reg[0])
         tdr_reg <= pwdata;
     else tdr_reg <= tdr_reg;
@@ -65,7 +65,7 @@ assign tdr = tdr_reg;
 
 always @(posedge pclk or negedge preset_n) begin
     if (!preset_n)
-        tcr_reg <= 8'h00;
+        tcr_reg <= 32'd0;
     else if (pwrite && psel && penable && pready && sel_reg[1]) begin
         tcr_reg[7] <= pwdata[7];
         tcr_reg[5] <= pwdata[5];
@@ -111,9 +111,9 @@ always @(*) begin
     if (psel && penable && (!pwrite) && pready) begin
         case (sel_reg)
             3'h1: prdata_reg = tdr_reg;
-            3'h2: prdata_reg = {load, 1'b0, updown, en, 2'b00, cks};
-            3'h4: prdata_reg = {6'b000000, tsr_reg[1:0]};
-            default: prdata_reg = 8'h00;
+            3'h2: prdata_reg = {24'b0,load, 1'b0, updown, en, 2'b00, cks};
+            3'h4: prdata_reg = { 30'b0,tsr_reg[1:0]};
+            default: prdata_reg = 32'b0;
         endcase
     end else
         prdata_reg = prdata_reg;
@@ -121,23 +121,6 @@ end
 
 assign prdata = prdata_reg;
 
-// always @(posedge pclk or negedge preset_n) begin
-//     if (!preset_n) begin
-//         pready_reg <= 1'b0;
-//         count <= 3'b000;
-//     end else if (psel && penable && (!count)) begin
-//         pready_reg <= 1'b0;
-//     end else if (psel) begin
-//         if (count == `WAIT_CYCLES) begin
-//             pready_reg <= 1'b1;
-//             count <= 3'b0;
-//         end else begin
-//             pready_reg <= 1'b0;
-//             count <= count + 1'b1;
-//         end
-//     end else
-//         pready_reg <= 1'b0;
-// end
 
 assign pready = 1;
 

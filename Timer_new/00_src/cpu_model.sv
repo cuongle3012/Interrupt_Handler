@@ -2,19 +2,19 @@ module cpu_model (input pclk,
 		  input preset_n,
 		  input pslverr,
 		  input pready,
-		  input [7:0] prdata,
+		  input [31:0] prdata,
 		  output reg pwrite,
 		  output reg psel,
 		  output reg penable,
-		  output reg [7:0] paddr,
-		  output reg [7:0] pwdata
+		  output reg [31:0] paddr,
+		  output reg [31:0] pwdata
 		  );
 initial begin
 pwrite = 1'b0;
 psel = 1'b0;
 penable = 1'b0;
-paddr = 8'h00;
-pwdata = 8'h00;
+paddr = 32'b0;
+pwdata = 32'b0;
 end
 
 always @(posedge pclk or negedge preset_n) begin	//0 can bat xung pclk
@@ -22,8 +22,8 @@ if (!preset_n) begin
 	   pwrite = 1'b0;
 	   psel = 1'b0;
 	   penable = 1'b0;
-	   paddr = 1'b0;
-	   pwdata = 1'b0;
+	   paddr = 32'b0;
+	   pwdata = 32'b0;
 	end
 	else begin
 	   pwrite = pwrite;
@@ -34,7 +34,7 @@ if (!preset_n) begin
 	end
 end
 
-task write_data (input [7:0] address, input [7:0] data, output err);
+task write_data (input [31:0] address, input [31:0] data, output err);
 begin
 	@(posedge pclk);
 	#1;
@@ -42,7 +42,7 @@ begin
 	psel = 1'b1;
 	paddr = address;
 	pwdata = data;
-	$display("At %0t start writing wdata='h0%0h to address = 8'h%0h", $time, data, address);
+	$display("At %0t start writing wdata='h0%0d to address = 32'h%0h", $time, data, address);
 
 	@(posedge pclk);
 	#1;
@@ -58,21 +58,21 @@ begin
 	#1;
 	pwrite = 1'b0;
 	psel = 1'b0;
-	paddr = 8'h00;
-	pwdata = 8'h00;
+	paddr = 32'd0;
+	pwdata = 32'd0;
 	penable = 1'b0;
 	$display("At %0t write transfer completed", $time);
 end
 endtask
 
-task read_data (input [7:0] address, output [7:0] data, output err);
+task read_data (input [31:0] address, output [31:0] data, output err);
 begin
 	@(posedge pclk);
 	#1;
 	pwrite = 1'b0;
 	psel = 1'b1;
 	paddr = address;
-	$display("At %0t start reading from address=8'h%0h", $time, address);
+	$display("At %0t start reading from address=32'h%0h", $time, address);
 
 	@(posedge pclk);
 	#1;
@@ -89,7 +89,7 @@ begin
 	#1;
 	pwrite = 1'b0;
 	psel = 1'b0;
-	paddr = 8'h00;
+	paddr = 32'd0;
 	penable = 1'b0;
 	$display("At %0t read transfer completed", $time);
 

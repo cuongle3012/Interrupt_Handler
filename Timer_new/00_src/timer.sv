@@ -3,9 +3,9 @@ module timer(input pclk,
 	     input psel,
 	     input pwrite,
 	     input penable,
-	     input [7:0] pwdata,
-	     input [7:0] paddr,
-	     output [7:0] prdata,
+	     input [31:0] pwdata,
+	     input [31:0] paddr,
+	     output [31:0] prdata,
 	     output pready,
 	     output pslverr
 	     );
@@ -19,7 +19,7 @@ wire [1:0] cks;
 wire [1:0] clr_flag;
 wire clk_int;
 wire ovf_flag, udf_flag;
-wire [7:0] tdr, last_cnt, cnt;
+wire [31:0] tdr, last_cnt, cnt;
 wire count_ena;
 //clock select
 
