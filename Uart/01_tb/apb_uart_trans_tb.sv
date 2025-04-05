@@ -10,8 +10,6 @@ module TransdataEvenParity;
 	reg penable;
 	reg pwrite;
 	reg [31:0] pwdata;
-	reg [2:0] pprot;
-	reg [3:0] pstrb;
 	reg rxd;
 
 	// Outputs
@@ -26,8 +24,11 @@ module TransdataEvenParity;
 	wire i_pe;
 	wire i_fre;
 
-	// Instantiate the Unit Under Test (UUT)
-	APB_UART_top uut (
+   // Internal variable to count txd changes
+    integer count_data_trans;
+    reg previous_txd; // To store the previous value of txd
+	
+	APB_UART_top apb (
 		.pclk(pclk), 
 		.presetn(presetn), 
 		.psel(psel), 
@@ -35,8 +36,6 @@ module TransdataEvenParity;
 		.penable(penable), 
 		.pwrite(pwrite), 
 		.pwdata(pwdata), 
-		.pprot(pprot), 
-		.pstrb(pstrb), 
 		.rxd(rxd), 
 		.pready(pready), 
 		.pslverr(pslverr), 
@@ -49,7 +48,14 @@ module TransdataEvenParity;
 		.i_pe(i_pe), 
 		.i_fre(i_fre)
 	);
-
+    always @(posedge pclk or negedge presetn) begin
+        if (~presetn) begin
+          count_data_trans = 0; // Reset counter on reset
+        end else if (apb.uart_tx.counter_next==0 & apb.uart_tx.counter==15) begin
+          // Count the change in txd
+          count_data_trans = count_data_trans + 1;
+        end
+      end
 initial begin
 //Task 1: Write 1 data and transfer by receiver
 		// Initialize Inputs
@@ -60,67 +66,67 @@ initial begin
 		penable = 0;
 		pwrite = 0;
 		pwdata = 0;
-		pprot = 0;
-		pstrb = 0;
-		rxd = 1;
+        count_data_trans = 0; 
 
 		// Wait 100 ns for global reset to finish
-		#20;
+		#20
 		presetn = 1;
-		#20;
-		//Set enbale signal
+		#20
+		//Set enbale signal 
 		psel = 1;
 		pwrite = 1;
 		paddr = 32'h00000110;
 		pwdata = 32'b01111111;
-		pstrb = 4'b1111;
-		#10;
-		penable = 1;
-		#30;
-		penable = 0;
+		#20;
+		penable = 1; // ACCESS
+		#20;
+
+		psel = 0; //IDLE
+		penable =0;
+		#20;
 		//Set baudrate
-		psel = 1;
+		psel = 1; //SET UP
 		pwrite = 1;
 		paddr = 32'h00000101;
 		pwdata = 32'd27;
-		pstrb = 4'b1111;
-		#10;
-		penable = 1;
-		#30;
-		penable = 0;
-		psel = 0;
-		#10;
+		#20;
+		penable = 1; // ACCESS
+		#20;
+		
+		psel=0;
+		penable=0;
+        #20;
 		//Set data to transmiter
 		psel = 1;
 		pwrite = 1;
 		paddr = 32'h00000100;
 		pwdata = 32'b11011001;
-		pstrb = 4'b1111;
-		#10;
+		#20;
 		penable = 1;
-		#30;
-		penable = 0;
-		psel = 0;
+		#20;
+		psel=0;
+		penable=0;
+
 		
-        #20;
+        /*#20;
 		//Set enbale signal
 		psel = 1;
 		pwrite = 1;
 		paddr = 32'h00000110;
 		pwdata = 32'b00000000;
 		pstrb = 4'b1111;
-		#10;
+		#20;
 		penable = 1;
 		#30;
 		penable = 0;
-        
-		#250000;
+        */
+        #100000;
 		$finish;
 
 	end
 	always begin
 		pclk = ~pclk;
-		#5;
+		#10;
 
 		end
       
