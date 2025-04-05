@@ -8,8 +8,7 @@ module APB_Interface (
     input penable,
     input pwrite,
     input [31:0] pwdata,
-    input [2:0] pprot,
-    input [3:0] pstrb,
+
 
     //Input from UART
     input [7:0] data_rx,
@@ -47,7 +46,6 @@ module APB_Interface (
 );
   //Reg for APB
   //Ouput reg
-  reg preadytemp;
   reg pslverr_reg;
   reg [31:0] prdata_reg;
 
@@ -77,7 +75,7 @@ module APB_Interface (
   reg [7:0] reg_en;  //Include 6 interrupt enbale signal and ip enable, parity enable
   reg [3:0] reg_thr;
 
-  //Write and reaf transfer
+  //Write and read transfer
   reg [1:0] state;
   reg [3:0] reg_sel;
 
@@ -88,14 +86,12 @@ module APB_Interface (
     else begin
       case (state)
         IDLE: begin
-          preadytemp <= 1;
           write_reg  <= 0;
           read_reg   <= 0;
           if (psel == 1) state <= SETUP;
           else state <= IDLE;
         end
         SETUP: begin
-          preadytemp <= 0;
           if (penable == 1) begin
             state <= ACCESS;
             if (pwrite) write_reg <= 1 & reg_sel[0];
@@ -105,17 +101,13 @@ module APB_Interface (
         ACCESS: begin
           write_reg <= 0;
           read_reg <= 0;
-          preadytemp <= 0;
-          state <= WAIT;
-        end
-        WAIT: begin
-          preadytemp <= 1;
           state <= IDLE;
         end
         default: state <= IDLE;
       endcase
     end
   end
+
 
   //Write enable for transmiter
   assign write_en = write_reg;
@@ -136,7 +128,7 @@ module APB_Interface (
   //Data reg
   always @(posedge pclk or negedge presetn) begin
     if (~presetn) reg_data <= 8'd0;
-    else if (reg_sel[0] & psel & penable & pstrb[0])
+    else if (reg_sel[0] & psel & penable )
       if (pwrite) reg_data[7:0] <= pwdata[7:0];
       else reg_data[7:0] <= data_rx[7:0];
 
@@ -146,7 +138,7 @@ module APB_Interface (
   //Baudrate Setting
   always @(posedge pclk or negedge presetn) begin
     if (~presetn) reg_bclk <= 10'd977;
-    else if (reg_sel[1] & psel & penable & (&pstrb[1:0]))
+    else if (reg_sel[1] & psel & penable )
       if (pwrite) reg_bclk[10:0] <= pwdata[10:0];
 
   end
@@ -154,14 +146,14 @@ module APB_Interface (
   //Enable Setting
   always @(posedge pclk or negedge presetn) begin
     if (~presetn) reg_en <= 8'd0;
-    else if (reg_sel[2] & psel & penable & pstrb[0]) if (pwrite) reg_en[7:0] <= pwdata[7:0];
+    else if (reg_sel[2] & psel & penable ) if (pwrite) reg_en[7:0] <= pwdata[7:0];
   end
 
 
   //Threshold setting
   always @(posedge pclk or negedge presetn) begin
     if (~presetn) reg_thr <= 4'd0;
-    else if (reg_sel[3] & psel & penable & pstrb[0]) if (pwrite) reg_thr[3:0] <= pwdata[3:0];
+    else if (reg_sel[3] & psel & penable ) if (pwrite) reg_thr[3:0] <= pwdata[3:0];
   end
 
 
@@ -180,7 +172,7 @@ module APB_Interface (
   //Set up plsverr
   always @(posedge pclk or negedge presetn) begin
     if (~presetn) pslverr_reg <= 0;
-    else if ((paddr[0] | paddr[1]) | (paddr[31:0] > 32'd15) | ~(pstrb[0] & pstrb[1]))
+    else if ((paddr[0] | paddr[1]) )
       pslverr_reg <= 1;
     else pslverr_reg <= 0;
   end
@@ -198,7 +190,7 @@ module APB_Interface (
   assign rx_thr_val[1:0] = reg_thr[3:2];
 
   //Assign pready and pslverr
-  assign pready = preadytemp;
+  assign pready = 1;
   assign pslverr = pslverr_reg;
 
   //Assign enable signal

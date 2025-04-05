@@ -95,8 +95,8 @@ module uart_receiver (
   assign rx_pe = rdata[9];
 
   //Set threshold 
-  reg threshold;
-  always @(posedge clk or negedge resetn) begin
+  logic threshold;
+  always @(posedge clk ) begin
     case (rx_thr_val)
       00: threshold <= (length >= 16);
       01: threshold <= (length >= 8);
