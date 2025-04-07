@@ -71,7 +71,6 @@ module uart_transmitter (
     end else if (read_en == 1 & fifo_empty == 0) begin
       rdata   <= fifo_mem[read_pt];
       read_pt <= read_pt + 1;
-      length  <= length - 1;
     end
   end
 
@@ -79,11 +78,11 @@ module uart_transmitter (
   logic threshold;
   always @(*) begin
     case (tx_thr_val)
-      00: threshold = (length < 16);
-      01: threshold = (length < 14);
-      10: threshold = (length < 12);
-      11: threshold = (length < 8);
-      default: threshold = (length <= 8);
+      00: threshold = (length > 8);
+      01: threshold = (length > 6);
+      10: threshold = (length >4);
+      11: threshold = (length > 2);
+      default: threshold = (length > 2);
     endcase
   end
 
@@ -144,7 +143,8 @@ module uart_transmitter (
   end
 
 
-  always @(*) begin
+  always_comb
+  begin
     state_next = state;
     counter_next = counter;
     index_next = index;
