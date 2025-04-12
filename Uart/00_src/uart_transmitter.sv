@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+
 module uart_transmitter (
     //Input
     input clk,

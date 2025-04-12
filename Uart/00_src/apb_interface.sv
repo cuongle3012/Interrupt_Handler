@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+
 module APB_Interface (
     //Input from APB
     input pclk,
@@ -192,6 +192,71 @@ module APB_Interface (
   //Assign pready and pslverr
   assign pready = 1;
   assign pslverr = pslverr_reg;
+  
+  reg itx_thr_reg, irx_thr_reg, irx_ov_reg, i_pe_reg, i_fre_reg;
+
+// Tín hiệu interrupt đầu vào đã enable
+  wire itx_pulse = txthr_en & tx_thr;
+  wire irx_pulse = rxthr_en & rx_thr;
+  wire iov_pulse = rxov_en & rx_ov;
+  wire ipe_pulse = pe_en & rx_pe;
+  wire ifre_pulse = fre_en & rx_fre;
+  
+  logic itx_clear;
+  logic irx_clear;
+  logic iov_clear;
+  logic ipe_clear;
+  logic ifre_clear;
+  
+  
+  always @(posedge pclk or negedge presetn) begin
+      if (~presetn) begin
+          itx_thr_reg <= 0;
+          irx_thr_reg <= 0;
+          irx_ov_reg  <= 0;
+          i_pe_reg    <= 0;
+          i_fre_reg   <= 0;
+          itx_clear   <= 0;
+          irx_clear   <= 0;
+          iov_clear   <= 0;
+          ipe_clear   <= 0;
+          ifre_clear  <= 0;
+      end else if(itx_pulse) begin
+          itx_thr_reg <= 1; // Phát xung 1 chu kỳ
+          itx_clear <= itx_thr_reg; 
+      end else if(irx_pulse) begin
+          irx_thr_reg <= 1; // Phát xung 1 chu kỳ
+          irx_clear <= irx_thr_reg; // Tự động xóa
+      end else if(iov_pulse) begin
+          irx_ov_reg <= 1; // Phát xung 1 chu kỳ
+          iov_clear <= irx_ov_reg; // Tự động xóa
+   end else if(ipe_pulse) begin
+          i_pe_reg <= 1; // Phát xung 1 chu kỳ
+          ipe_clear <= i_pe_reg;
+      end else if(ifre_pulse) begin
+         i_fre_reg <= 1; // Phát xung 1 chu kỳ
+          ifre_clear <= i_fre_reg;
+      end else begin
+        itx_thr_reg <= itx_thr_reg;
+        irx_thr_reg <= irx_thr_reg;
+        irx_ov_reg  <= irx_ov_reg;
+        i_pe_reg    <= i_pe_reg;
+        i_fre_reg   <= i_fre_reg;
+    end
+  end
+
+
+  // Output
+  assign itx_thr = itx_thr_reg & ~itx_clear;
+  assign irx_thr = irx_thr_reg & ~irx_clear;
+  assign irx_ov  = irx_ov_reg & ~iov_clear;
+  assign i_pe    = i_pe_reg & ~ipe_clear;
+  assign i_fre   = i_fre_reg & ~ifre_clear;
+  
+  // Tổng ngắt
+  assign totalint = itx_thr | irx_thr | irx_ov | i_pe | i_fre;
+  
+
 
   //Assign enable signal
   assign txthr_en = reg_en[0];
@@ -203,12 +268,7 @@ module APB_Interface (
   assign parity_en = reg_en[6];
   assign parity_type = reg_en[7];
 
-  //Assign ouput interrupt
-  assign itx_thr = txthr_en & tx_thr;
-  assign irx_thr = rxthr_en & rx_thr;
-  assign irx_ov = rxov_en & rx_ov;
-  assign i_pe = pe_en & rx_pe;
-  assign i_fre = fre_en & rx_fre;
-  assign totalint = itx_thr | irx_thr | irx_ov | i_pe | i_fre;
+
+
 
 endmodule

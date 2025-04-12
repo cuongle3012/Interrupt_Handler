@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+
 module BCLK_Generator(
 
 //Input from clock generator, system, apb interface, tx and rx
