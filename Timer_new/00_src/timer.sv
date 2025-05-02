@@ -5,9 +5,10 @@ module timer(input pclk,
 	     input penable,
 	     input [31:0] pwdata,
 	     input [31:0] paddr,
-	     output [31:0] prdata,
+	     output logic [31:0] prdata,
 	     output pready,
-	     output pslverr
+	     output pslverr,
+		  output intr_timer
 	     );
 
 // khai bao trung gian
@@ -22,6 +23,8 @@ wire ovf_flag, udf_flag;
 wire [31:0] tdr, last_cnt, cnt;
 wire count_ena;
 //clock select
+
+assign intr_timer = ovf_flag||udf_flag;
 
 clk_sel sys_clk (.pclk(pclk),
 		 .preset_n(preset_n),
