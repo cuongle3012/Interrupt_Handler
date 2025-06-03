@@ -1,0 +1,88 @@
+*** Message Type: info ***
+When: Thu May 29 05:10:57 EDT 2025
+SimVision started.
+Version: TOOL:  simvision(64)   20.09-s001
+User: admin
+Host: centos7
+Platform: Linux/x86_64/3.10.0-1160.108.1.el7.x86_64
+Started: Thu May 29 05:10:57 EDT 2025
+Command: /opt/cadence/XCELIUM2009/tools.lnx86/simvision/bin/64bit/simvision.exe -connect dc:centos7:44810 -64BIT -nocopyright
+Work Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+ 
+*** Message Type: info ***
+When: Thu May 29 05:10:59 EDT 2025
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Thu May 29 05:11:02 EDT 2025
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Thu May 29 05:11:06 EDT 2025
+Connect to Simulator
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:    xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Thu May 29 05:10:52 EDT 2025
+  Process ID: 3168
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+     Command: xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw
+
+ 
+*** Message Type: info ***
+When: Thu May 29 05:11:07 EDT 2025
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Thu May 29 05:11:29 EDT 2025
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: info ***
+When: Thu May 29 05:20:52 EDT 2025
+Exit XM-Sim: user
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:    xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Thu May 29 05:10:52 EDT 2025
+  Process ID: 3168
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+     Command: xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw
+
+ 
+*** Message Type: error ***
+When: Thu May 29 05:20:57 EDT 2025
+XM-Sim Crashed:
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:    xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Thu May 29 05:10:52 EDT 2025
+  Process ID: 3168
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+     Command: xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:      xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Thu May 29 05:10:52 EDT 2025
+  Process ID: 3168
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+     Command: xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw
+
+Outstanding STRAP Requests:
+        strap::get d BCLK_Generator
+ 
+*** Message Type: info ***
+When: Thu May 29 05:20:57 EDT 2025
+SimVision Exit.
+ 

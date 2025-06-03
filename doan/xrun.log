@@ -1,0 +1,109 @@
+xrun(64): 20.09-s001: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+xrun: *W,FMDEF: The default file type mapping of .sv is being overwritten.
+TOOL:	xrun(64)	20.09-s001: Started on May 30, 2025 at 12:10:21 EDT
+xrun
+	-gui
+	+xm64bit
+	-sv
+	-vlogext .sv
+	-f 00_src/flist.f
+		00_src/alu.sv
+		00_src/apb_master.sv
+		00_src/branch_predictor.sv
+		00_src/brc.sv
+		00_src/CSR.sv
+		00_src/ctrl_unit.sv
+		00_src/EX_MEM.sv
+		00_src/forward_unit.sv
+		00_src/hazard_unit.sv
+		00_src/ID_EX.sv
+		00_src/IF_ID.sv
+		00_src/IMEM.sv
+		00_src/immgen.sv
+		00_src/lsu.sv
+		00_src/machine_control.sv
+		00_src/MEM_WB.sv
+		00_src/PC.sv
+		00_src/PCNEXT.sv
+		00_src/pc_ctrl_taken.sv
+		00_src/pc_intr.sv
+		00_src/pipelined.sv
+		00_src/processor.sv
+		00_src/regfile.sv
+		00_src/sll.sv
+		00_src/sra.sv
+		00_src/srl.sv
+		00_src/timer/timer.sv
+		00_src/timer/clk_sel.sv
+		00_src/timer/compare.sv
+		00_src/timer/counter.sv
+		00_src/timer/rw_control.sv
+		00_src/plic/apb_rw.sv
+		00_src/plic/edge_detection.sv
+		00_src/plic/int_sensing.sv
+		00_src/plic/intr_ctrl.sv
+		00_src/plic/pri_deter.sv
+		00_src/uart/apb_interface.sv
+		00_src/uart/apb_uart_top.sv
+		00_src/uart/BCLK_Generator.sv
+		00_src/uart/uart_receiver.sv
+		00_src/uart/uart_transmitter.sv
+	01_tb/tb.sv
+	-timescale 1ns/10ps
+	+access+rcw
+Recompiling... reason: file './01_tb/tb.sv' is newer than expected.
+	expected: Fri May 30 11:53:05 2025
+	actual:   Fri May 30 12:10:18 2025
+file: 01_tb/tb.sv
+	module worklib.processor_tb:sv
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Top level design units:
+		$unit_0x6c226ec6
+		processor_tb
+xmelab: *W,DSEMEL: This SystemVerilog design will be simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.processor_tb:sv <0x50d1547f>
+			streams:  17, words:  8749
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                 49      42
+		Registers:              566     559
+		Scalar wires:           401       -
+		Expanded wires:           8       1
+		Vectored wires:         330       -
+		Always blocks:          128     121
+		Initial blocks:           2       2
+		Cont. assignments:      135     168
+		Pseudo assignments:     356     356
+		Compilation units:        1       1
+		Simulation timescale:  10ps
+	Writing initial simulation snapshot: worklib.processor_tb:sv
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> source /opt/cadence/XCELIUM2009/tools/xcelium/files/xmsimrc
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm processor_tb.i_clk processor_tb.i_io_btn processor_tb.i_io_sw processor_tb.i_rst_n processor_tb.o_io_hex0 processor_tb.o_io_hex1 processor_tb.o_io_hex2 processor_tb.o_io_hex3 processor_tb.o_io_hex4 processor_tb.o_io_hex5 processor_tb.o_io_hex6 processor_tb.o_io_hex7 processor_tb.o_io_lcd processor_tb.o_io_ledg processor_tb.o_io_ledr
+Created probe 1
+xcelium> run
+Simulation complete via $finish(1) at time 41040 NS + 0
+./01_tb/tb.sv:36       $finish;
+xcelium> probe -create -shm processor_tb.tb.CPU.mret processor_tb.tb.CPU.meip
+Created probe 2
+xcelium> reset
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+Loaded snapshot worklib.processor_tb:sv
+xcelium> run
+Simulation complete via $finish(1) at time 41040 NS + 0
+./01_tb/tb.sv:36       $finish;
+xcelium> ^C
+xcelium> exit
+TOOL:	xrun(64)	20.09-s001: Exiting on May 30, 2025 at 12:46:26 EDT  (total: 00:36:05)

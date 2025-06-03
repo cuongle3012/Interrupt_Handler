@@ -1,0 +1,97 @@
+*** Message Type: info ***
+When: Sat May 17 00:58:08 EDT 2025
+SimVision started.
+Version: TOOL:  simvision(64)   20.09-s001
+User: admin
+Host: centos7
+Platform: Linux/x86_64/3.10.0-1160.108.1.el7.x86_64
+Started: Sat May 17 00:58:08 EDT 2025
+Command: /opt/cadence/XCELIUM2009/tools.lnx86/simvision/bin/64bit/simvision.exe -connect dc:centos7:53096 -64BIT -nocopyright
+Work Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+ 
+*** Message Type: info ***
+When: Sat May 17 00:58:10 EDT 2025
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Sat May 17 00:58:13 EDT 2025
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Sat May 17 00:58:18 EDT 2025
+Connect to Simulator
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:    xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Sat May 17 00:58:04 EDT 2025
+  Process ID: 104447
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/doan
+     Command: xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw
+
+ 
+*** Message Type: info ***
+When: Sat May 17 00:58:19 EDT 2025
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Sat May 17 01:00:17 EDT 2025
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: error ***
+When: Sat May 17 01:09:02 EDT 2025
+couldn't open "/mnt/hgfs/chiase/RISC_Interrupt/doan/.simvision/104476_admin__autosave.tcl.svcf": no such file or directory
+    while executing
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "::savescript::autosave" line 1)
+    invoked from within
+"::savescript::autosave $filename"
+    (object "::application" method "::Application::auto-save" body line 18)
+    invoked from within
+"::application auto-save"
+    (in namespace inscope "::Application" script line 1)
+    invoked from within
+"namespace inscope ::Application {::application auto-save}"
+    ("after" script)
+ 
+*** Message Type: error ***
+When: Sat May 17 01:09:02 EDT 2025
+couldn't open "/mnt/hgfs/chiase/RISC_Interrupt/doan/.simvision/104476_admin__autosave.tcl.svcf": no such file or directory
+    while executing
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "::savescript::autosave" line 1)
+    invoked from within
+"::savescript::autosave $filename"
+    (object "::application" method "::Application::auto-save" body line 18)
+    invoked from within
+"::application auto-save"
+    (in namespace inscope "::Application" script line 1)
+    invoked from within
+"namespace inscope ::Application {::application auto-save}"
+    ("after" script)
+ 
+*** Message Type: error ***
+When: Sat May 17 01:09:03 EDT 2025
+couldn't open "/mnt/hgfs/chiase/RISC_Interrupt/doan/.simvision/104476_admin__autosave.tcl.svcf": no such file or directory
+    while executing
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "::savescript::autosave" line 1)
+    invoked from within
+"::savescript::autosave $filename"
+    (object "::application" method "::Application::auto-save" body line 18)
+    invoked from within
+"::application auto-save"
+    (in namespace inscope "::Application" script line 1)
+    invoked from within
+"namespace inscope ::Application {::application auto-save}"
+    ("after" script)
+ 
+*** Message Type: info ***
+When: Sat May 17 01:09:17 EDT 2025
+SimVision Exit.
+ 
