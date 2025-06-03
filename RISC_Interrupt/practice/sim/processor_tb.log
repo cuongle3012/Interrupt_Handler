@@ -1,0 +1,67 @@
+# vsim -debugDB -l processor_tb.log -voptargs="+acc" -assertdebug -c processor_tb -do "log -r /*;run -all;" 
+# Start time: 13:30:15 on Mar 29,2025
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vsim-8611) Generating debug db.
+# ** Warning: (vopt-10587) Some optimizations are turned off because the +acc switch is in effect. This will cause your simulation to run slowly. Please use -access/-debug to maintain needed visibility.
+# ** Note: (vopt-143) Recognized 1 FSM in module "machine_controller(fast)".
+# ** Note: (vopt-143) Recognized 1 FSM in module "apb_master(fast)".
+# ** Note: (vopt-4301) Memory core inferred for signal 'tag' width=25, depth=32, type=RAM at location ../rtl/branch_predictor.sv:32
+# ** Note: (vopt-4301) Memory core inferred for signal 'predicted_pc' width=32, depth=32, type=RAM at location ../rtl/branch_predictor.sv:31
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=0, Warnings=1.
+# //  Questa Intel Starter FPGA Edition-64
+# //  Version 2023.3 linux_x86_64 Jul 17 2023
+# //
+# //  Copyright 1991-2023 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.processor_tb(fast)
+# Loading work.processor(fast)
+# Loading work.pipelined(fast)
+# Loading work.branch_predictor(fast)
+# Loading work.PC(fast)
+# Loading work.IMEM(fast)
+# Loading work.IF_ID(fast)
+# Loading work.ctrl_unit(fast)
+# Loading work.regfile(fast)
+# Loading work.immgen(fast)
+# Loading work.ID_EX(fast)
+# Loading work.brc(fast)
+# Loading work.alu(fast)
+# Loading work.sll(fast)
+# Loading work.srl(fast)
+# Loading work.sra(fast)
+# Loading work.pc_ctrl_taken(fast)
+# Loading work.EX_MEM(fast)
+# Loading work.lsu(fast)
+# Loading work.MEM_WB(fast)
+# Loading work.hazard_unit(fast)
+# Loading work.forward_unit(fast)
+# Loading work.CSR(fast)
+# Loading work.pc_intr(fast)
+# Loading work.machine_control_sv_unit(fast)
+# Loading work.machine_controller(fast)
+# Loading work.apb_master(fast)
+# Loading work.timer(fast)
+# Loading work.clk_sel(fast)
+# Loading work.counter(fast)
+# Loading work.compare(fast)
+# Loading work.rw_control(fast)
+# ** Note: (vsim-8900) Creating design debug database vsim.dbg.
+# log -r /*
+# run -all
+# ** Warning: (vsim-7) Failed to open readmem file "D:/chiase/RISC_Interrupt/tb/program4kit.txt" in read mode.
+# No such file or directory. (errno = ENOENT)    : ../rtl/IMEM.sv(12)
+#    Time: 0 ns  Iteration: 0  Instance: /processor_tb/tb/CPU/IMEM
+# ** Note: $finish    : ../tb/tb.sv(20)
+#    Time: 50010 ns  Iteration: 0  Instance: /processor_tb
+# End time: 13:36:08 on Mar 29,2025, Elapsed time: 0:05:53
+# Errors: 0, Warnings: 2

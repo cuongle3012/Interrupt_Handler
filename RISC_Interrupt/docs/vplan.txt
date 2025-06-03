@@ -1,0 +1,24 @@
+Format:
+  - Number - Description
+  - Scenario
+  - Pass condition 
+  - Bug (Explain if any, Othervise give comment "NO BUG")
+Example:
+1. Check data convert from parallel (DATA_IN) to serial (TXD)
+  - Scenario:
+  1.1 Wait Clk and reset OK
+  1.2 Input DATA_IN = random data, VALID trigger and PARITY_MODE = 2'b00 (no parity check)
+  1.3 After 1 clock cycle, negate VALID signal
+  - Pass condition: Check TXD convert data correctness from DATA_IN
+  - Bug: TXD convert last data bit incorrect, expected 1'b1 but in waveform 1'b0
+2. ....
+
+
+*** Verification Plan ***
+1.
+2.
+3.
+.
+.
+.
+.

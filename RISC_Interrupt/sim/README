@@ -1,0 +1,3 @@
+RTL is encrypted (black-box), you can not see the source code.
+To run simlation, you can use command: make all
+For more detail, use command: make help

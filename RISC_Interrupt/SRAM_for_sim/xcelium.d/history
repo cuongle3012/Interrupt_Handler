@@ -1,0 +1,8 @@
+//
+// File created by:  xrun
+// Do not modify this file
+
+s1::(02May2025:09:15:43):( xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw )
+s2::(02May2025:09:17:55):( xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw )
+s3::(02May2025:09:39:59):( xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw )
+s4::(02May2025:10:01:28):( xrun -gui +xm64bit -sv -vlogext .sv -f 00_src/flist.f 01_tb/tb.sv -timescale 1ns/10ps +access+rcw )

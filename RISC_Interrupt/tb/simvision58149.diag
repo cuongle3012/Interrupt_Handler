@@ -1,0 +1,93 @@
+*** Message Type: info ***
+When: Mon Apr 07 08:09:38 EDT 2025
+SimVision started.
+Version: TOOL:  simvision(64)   20.09-s001
+User: admin
+Host: centos7
+Platform: Linux/x86_64/3.10.0-1160.108.1.el7.x86_64
+Started: Mon Apr 07 08:09:38 EDT 2025
+Command: /opt/cadence/XCELIUM2009/tools.lnx86/simvision/bin/64bit/simvision.exe -connect dc:centos7:53316 -64BIT -nocopyright
+Work Directory: /mnt/hgfs/chiase/RISC_Interrupt/tb
+ 
+*** Message Type: info ***
+When: Mon Apr 07 08:09:41 EDT 2025
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Mon Apr 07 08:09:49 EDT 2025
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Mon Apr 07 08:09:57 EDT 2025
+Connect to Simulator
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:    xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Mon Apr 07 08:09:31 EDT 2025
+  Process ID: 58134
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/tb
+     Command: xrun -gui ../rtl/NO_SRAM/timer/clk_sel.sv ../rtl/NO_SRAM/timer/compare.sv ../rtl/NO_SRAM/timer/counter.sv ../rtl/NO_SRAM/timer/rw_control.sv ../rtl/NO_SRAM/timer/timer.sv ../rtl/NO_SRAM/plic/apb_rw.sv ../rtl/NO_SRAM/plic/edge_detection.sv ../rtl/NO_SRAM/plic/int_sensing.sv ../rtl/NO_SRAM/plic/intr_ctrl.sv ../rtl/NO_SRAM/plic/pri_deter.sv ../rtl/NO_SRAM/uart/BCLK_Generator.sv ../rtl/NO_SRAM/uart/apb_interface.sv ../rtl/NO_SRAM/uart/apb_uart_top.sv ../rtl/NO_SRAM/uart/uart_receiver.sv ../rtl/NO_SRAM/uart/uart_transmitter.sv ../rtl/NO_SRAM/CSR.sv ../rtl/NO_SRAM/EX_MEM.sv ../rtl/NO_SRAM/ID_EX.sv ../rtl/NO_SRAM/IF_ID.sv ../rtl/NO_SRAM/IMEM.sv ../rtl/NO_SRAM/MEM_WB.sv ../rtl/NO_SRAM/PC.sv ../rtl/NO_SRAM/alu.sv ../rtl/NO_SRAM/apb_master(try).sv ../rtl/NO_SRAM/branch_predictor.sv ../rtl/NO_SRAM/brc.sv ../rtl/NO_SRAM/ctrl_unit.sv ../rtl/NO_SRAM/forward_unit.sv ../rtl/NO_SRAM/hazard_unit.sv ../rtl/NO_SRAM/immgen.sv ../rtl/NO_SRAM/lsu4.sv ../rtl/NO_SRAM/machine_control.sv ../rtl/NO_SRAM/pc_ctrl_taken.sv ../rtl/NO_SRAM/pc_intr.sv ../rtl/NO_SRAM/pipelined.sv ../rtl/NO_SRAM/processor.sv ../rtl/NO_SRAM/regfile.sv ../rtl/NO_SRAM/sll.sv ../rtl/NO_SRAM/sra.sv ../rtl/NO_SRAM/srl.sv tb.sv +access+rcw
+
+ 
+*** Message Type: info ***
+When: Mon Apr 07 08:09:59 EDT 2025
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Mon Apr 07 08:10:47 EDT 2025
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: error ***
+When: Wed Apr 09 03:52:01 EDT 2025
+error writing "file8": I/O error
+    while executing
+"puts $fid "set id \[waveform add -signals $subst \{""
+    ("default" arm line 88)
+    invoked from within
+"switch -- [$itk_component(waveset) type $id] {
+     group - overlay {
+          if {$startNewWaveAddCmd == 0} {
+                    puts $fid "\t\} $endsubst\]"
+                   set f..."
+    (object "::.waveWindow0" method "::WaveWindow::saveToCommandScript" body line 78)
+    invoked from within
+"$window saveToCommandScript $fid"
+    ("foreach" body line 13)
+    invoked from within
+"foreach window [::windows getWindows $type -objects] {
+                if {! [enabled windows $window] && !$autosaveFlag} {
+                       continue
+                   }
+              if {$first..."
+    ("foreach" body line 10)
+    invoked from within
+"foreach type [::windows getTypes -multi] {
+            # Skip any Expression Calc windows, since we do not have
+               # command language support for it.
+             if {$type..."
+    ("windows" arm line 2)
+    invoked from within
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "savescript::_save" line 1)
+    invoked from within
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "::savescript::autosave" line 1)
+    invoked from within
+"::savescript::autosave $filename"
+    (object "::application" method "::Application::auto-save" body line 18)
+    invoked from within
+"::application auto-save"
+    (in namespace inscope "::Application" script line 1)
+    invoked from within
+"namespace inscope ::Application {::application auto-save}"
+    ("after" script)
+ 
+*** Message Type: info ***
+When: Sat Apr 12 21:44:57 EDT 2025
+SimVision Exit.
+ 

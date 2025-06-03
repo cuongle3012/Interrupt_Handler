@@ -1,0 +1,40 @@
+Questa Intel Starter FPGA Edition-64 vlog 2023.3 Compiler 2023.07 Jul 17 2023
+Start time: 13:29:49 on Mar 29,2025
+vlog -f compile.f 
+-- Compiling module alu
+-- Compiling module apb_master
+-- Compiling module branch_predictor
+-- Compiling module brc
+-- Compiling module CSR
+-- Compiling module ctrl_unit
+-- Compiling module EX_MEM
+-- Compiling module forward_unit
+-- Compiling module hazard_unit
+-- Compiling module ID_EX
+-- Compiling module IF_ID
+-- Compiling module IMEM
+-- Compiling module immgen
+-- Compiling module lsu
+-- Compiling package machine_control_sv_unit
+-- Compiling module machine_controller
+-- Compiling module MEM_WB
+-- Compiling module PC
+-- Compiling module pc_ctrl_taken
+-- Compiling module pc_intr
+-- Compiling module pipelined
+-- Compiling module processor
+-- Compiling module regfile
+-- Compiling module sll
+-- Compiling module sra
+-- Compiling module srl
+-- Compiling module timer
+-- Compiling module clk_sel
+-- Compiling module compare
+-- Compiling module counter
+-- Compiling module rw_control
+-- Compiling module processor_tb
+
+Top level modules:
+	processor_tb
+End time: 13:30:06 on Mar 29,2025, Elapsed time: 0:00:17
+Errors: 0, Warnings: 0

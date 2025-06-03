@@ -1,0 +1,72 @@
+            auipc x5, 0 # Lấy địa chỉ gần hiện tại của PC vào x5
+            addi x5, x5, isr # Cộng thêm offset để lấy địa chỉ thực của isr
+            csrrw x0, 0x305, x5 # Ghi địa chỉ isr vào mtvec (Machine Trap-Vector Base Address)
+            li x6, 0x8 # Bit 3 của mstatus là MIE (Machine Interrupt Enable)
+            csrrs x0, 0x300, x6
+            li x7,0x400 # Bit 7 của mie là MTIE (Machine Timer Interrupt Enable)
+            addi x7,x7,0x400 #bit 11 của mie là MEIE
+            addi x7,x7,0x80
+            csrrs x0, 0x304, x7
+            lui x8, 0x80000
+            addi x8,x8,7 #nguyên nhân ngắt của timer
+            addi x9,x8,4 #nguyên nhân ngắt của external
+            andi x18,x18,0
+            addi x18,x18,2 #nguyên nhân ngắt của exception
+            lui x10,7 #red led
+            addi x11, x10, 0x400
+            addi x11, x11, 0x400 #cấp đầu vào
+            andi x14,x14,0
+            li x15, 0x80
+            andi x5,x5,0
+            addi x20,x20,200 #nạp giá trị cho timer
+            addi x21,x21,0xB3 #setup cấu hình cho timer
+            sb x20,0(x5)
+            nop #câu giờ để apb có thể ghi kịp data
+            sb x21,4(x5)
+            nop #task có 3 cycle
+            nop #nop 3 cái để chờ data được ghi xong #F0005013(lệnh sai)
+            addi x21,x21,-128 #xóa tín hiệu load
+            sw x21,4(x5)
+            nop
+            li x20, 0xAAAA
+            li x20, 0xAAAA
+            sh x20, 0x20C(x5) #chọn ngắt cạnh lên
+            addi x20, x0, 0xFF
+            nop
+            sb x20, 0x208(x5)
+            li x21, 0x76543
+            nop
+            sw x21, 0x204(x5) #set ngắt UART là cao nhất
+main_loop: li x13,10 #lui x13, 0x3000
+lap:        addi x13,x13,-1
+            bne x13,x0, lap
+            addi x14,x14,1 #lưu kết quả vào reg led
+            sw x14,0(x10) #cứ trải qua từng ấy thời gian, ta xem thử nó thay đổi như nào
+            jal main_loop
+tmr_isr: li x16,10 #lui x16, 0x3000
+lap1:       addi x16,x16,-1
+            bne x16,x0, lap1
+            sw x15, 16(x10) #out ra green led
+            srli x15,x15,1
+            bne x15,x0,tmr_isr
+            li x15,0x80
+            nop #mret
+            nop
+            nop
+isr: csrrs x12,0x342,x0 #đọc nguyên nhân ngắt(Mstatus)
+            beq x12,x8,tmr_isr
+            beq x12,x9,ext_isr
+            beq x12,x18, excep_isr
+            nop
+            nop
+            nop #mret #nếu 0 xác định được nguyên nhân ngắt thì về lại
+ext_isr: li x17,0x78
+            sw x17,32(x10)
+            nop #mret
+            nop
+            nop
+excep_isr: li x17,0x79
+            sb x17,39(x10)
+            nop #mret
+            nop
+            nop

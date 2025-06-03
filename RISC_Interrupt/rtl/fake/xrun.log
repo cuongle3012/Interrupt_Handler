@@ -1,0 +1,100 @@
+xrun(64): 20.09-s001: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+xrun: *W,FMDEF: The default file type mapping of .sv is being overwritten.
+TOOL:	xrun(64)	20.09-s001: Started on May 16, 2025 at 23:55:17 EDT
+xrun
+	-gui
+	+xm64bit
+	-sv
+	-vlogext .sv
+	-f 00_src/flist.f
+		00_src/alu.sv
+		00_src/apb_master.sv
+		00_src/brc.sv
+		00_src/CSR.sv
+		00_src/ctrl_unit.sv
+		00_src/EX_MEM.sv
+		00_src/forward_unit.sv
+		00_src/hazard_unit.sv
+		00_src/ID_EX.sv
+		00_src/IF_ID.sv
+		00_src/IMEM.sv
+		00_src/immgen.sv
+		00_src/lsu.sv
+		00_src/machine_control.sv
+		00_src/MEM_WB.sv
+		00_src/PC.sv
+		00_src/PCNEXT.sv
+		00_src/pc_ctrl_taken.sv
+		00_src/pc_intr.sv
+		00_src/pipelined.sv
+		00_src/processor.sv
+		00_src/regfile.sv
+		00_src/sll.sv
+		00_src/sra.sv
+		00_src/srl.sv
+		00_src/timer/timer.sv
+		00_src/timer/clk_sel.sv
+		00_src/timer/compare.sv
+		00_src/timer/counter.sv
+		00_src/timer/rw_control.sv
+		00_src/plic/apb_rw.sv
+		00_src/plic/edge_detection.sv
+		00_src/plic/int_sensing.sv
+		00_src/plic/intr_ctrl.sv
+		00_src/plic/pri_deter.sv
+		00_src/uart/apb_interface.sv
+		00_src/uart/apb_uart_top.sv
+		00_src/uart/BCLK_Generator.sv
+		00_src/uart/uart_receiver.sv
+		00_src/uart/uart_transmitter.sv
+	01_tb/tb.sv
+	-timescale 1ns/10ps
+	+access+rcw
+Recompiling... reason: file './01_tb/tb.sv' is newer than expected.
+	expected: Fri May 16 23:53:09 2025
+	actual:   Fri May 16 23:55:11 2025
+file: 01_tb/tb.sv
+	module worklib.processor_tb:sv
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Top level design units:
+		$unit_0x242f6ed6
+		processor_tb
+xmelab: *W,DSEMEL: This SystemVerilog design will be simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.processor_tb:sv <0x105c71ab>
+			streams:  17, words:  7392
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                 48      41
+		Registers:              532     525
+		Scalar wires:           380       -
+		Expanded wires:           4       1
+		Vectored wires:         307       -
+		Always blocks:          124     117
+		Initial blocks:           2       2
+		Cont. assignments:      132     165
+		Pseudo assignments:     336     336
+		Compilation units:        1       1
+		Simulation timescale:  10ps
+	Writing initial simulation snapshot: worklib.processor_tb:sv
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> source /opt/cadence/XCELIUM2009/tools/xcelium/files/xmsimrc
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm processor_tb.tb.CPU.I_flag processor_tb.tb.CPU.alu_data_EX processor_tb.tb.CPU.alu_data_MEM processor_tb.tb.CPU.alu_data_WB processor_tb.tb.CPU.alu_op_EX processor_tb.tb.CPU.alu_op_ID processor_tb.tb.CPU.apb_en processor_tb.tb.CPU.br_equal processor_tb.tb.CPU.br_less processor_tb.tb.CPU.br_un_EX processor_tb.tb.CPU.br_un_ID processor_tb.tb.CPU.csr_en processor_tb.tb.CPU.csr_op processor_tb.tb.CPU.csr_rdata_EX processor_tb.tb.CPU.csr_rdata_ID processor_tb.tb.CPU.data4wrcsr processor_tb.tb.CPU.e_irq processor_tb.tb.CPU.excep_en processor_tb.tb.CPU.exception_cause processor_tb.tb.CPU.flush_EX processor_tb.tb.CPU.flush_EX_trap processor_tb.tb.CPU.flush_ID processor_tb.tb.CPU.flush_ID_trap processor_tb.tb.CPU.flush_MEM processor_tb.tb.CPU.flush_WB processor_tb.tb.CPU.forward_ASel processor_tb.tb.CPU.forward_BSel processor_tb.tb.CPU.i_clk processor_tb.tb.CPU.i_io_btn processor_tb.tb.CPU.i_io_sw processor_tb.tb.CPU.i_rst_n processor_tb.tb.CPU.imm_data_EX processor_tb.tb.CPU.imm_data_ID processor_tb.tb.CPU.insn_vld_EX processor_tb.tb.CPU.insn_vld_ID processor_tb.tb.CPU.insn_vld_MEM processor_tb.tb.CPU.insn_vld_WB processor_tb.tb.CPU.instr_EX processor_tb.tb.CPU.instr_ID processor_tb.tb.CPU.instr_IF processor_tb.tb.CPU.instr_MEM processor_tb.tb.CPU.instr_WB processor_tb.tb.CPU.intr_cause processor_tb.tb.CPU.intr_en processor_tb.tb.CPU.ld_data_MEM processor_tb.tb.CPU.ld_data_WB processor_tb.tb.CPU.ld_data_sel processor_tb.tb.CPU.ld_en_EX processor_tb.tb.CPU.ld_en_ID processor_tb.tb.CPU.ld_en_MEM processor_tb.tb.CPU.lsu_wren_EX processor_tb.tb.CPU.lsu_wren_ID processor_tb.tb.CPU.lsu_wren_MEM processor_tb.tb.CPU.meie processor_tb.tb.CPU.meip processor_tb.tb.CPU.mepc processor_tb.tb.CPU.mie processor_tb.tb.CPU.mret processor_tb.tb.CPU.mret_status processor_tb.tb.CPU.mtie processor_tb.tb.CPU.mtip processor_tb.tb.CPU.nxt_pc processor_tb.tb.CPU.o_io_hex0 processor_tb.tb.CPU.o_io_hex1 processor_tb.tb.CPU.o_io_hex2 processor_tb.tb.CPU.o_io_hex3 processor_tb.tb.CPU.o_io_hex4 processor_tb.tb.CPU.o_io_hex5 processor_tb.tb.CPU.o_io_hex6 processor_tb.tb.CPU.o_io_hex7 processor_tb.tb.CPU.o_io_lcd processor_tb.tb.CPU.o_io_ledg processor_tb.tb.CPU.o_io_ledr processor_tb.tb.CPU.opa_sel_EX processor_tb.tb.CPU.opa_sel_ID processor_tb.tb.CPU.opb_sel_EX processor_tb.tb.CPU.opb_sel_ID processor_tb.tb.CPU.operand_a processor_tb.tb.CPU.operand_b processor_tb.tb.CPU.paddr processor_tb.tb.CPU.pc4save processor_tb.tb.CPU.pc_EX processor_tb.tb.CPU.pc_ID processor_tb.tb.CPU.pc_IF processor_tb.tb.CPU.pc_MEM processor_tb.tb.CPU.pc_WB processor_tb.tb.CPU.pc_enable processor_tb.tb.CPU.pc_sel processor_tb.tb.CPU.pc_src processor_tb.tb.CPU.pc_trap processor_tb.tb.CPU.pcsel_urg processor_tb.tb.CPU.penable processor_tb.tb.CPU.prdata_plic processor_tb.tb.CPU.prdata_timer processor_tb.tb.CPU.prdata_uart processor_tb.tb.CPU.pready processor_tb.tb.CPU.psel_plic processor_tb.tb.CPU.psel_timer processor_tb.tb.CPU.psel_uart processor_tb.tb.CPU.pwdata processor_tb.tb.CPU.pwrite processor_tb.tb.CPU.rd_wren_EX processor_tb.tb.CPU.rd_wren_ID processor_tb.tb.CPU.rd_wren_MEM processor_tb.tb.CPU.rd_wren_WB processor_tb.tb.CPU.rs1_csr_op processor_tb.tb.CPU.rs1_data_EX processor_tb.tb.CPU.rs1_data_ID processor_tb.tb.CPU.rs1_data_WB processor_tb.tb.CPU.rs2_data_EX processor_tb.tb.CPU.rs2_data_ID processor_tb.tb.CPU.rs2_data_MEM processor_tb.tb.CPU.rs2_data_WB processor_tb.tb.CPU.stall_EX processor_tb.tb.CPU.stall_ID processor_tb.tb.CPU.stall_MEM processor_tb.tb.CPU.stall_WB processor_tb.tb.CPU.status_EX processor_tb.tb.CPU.status_ID processor_tb.tb.CPU.status_IF processor_tb.tb.CPU.t_irq processor_tb.tb.CPU.to_cpu_data processor_tb.tb.CPU.trans_trigger processor_tb.tb.CPU.wb_data_WB processor_tb.tb.CPU.wb_sel_EX processor_tb.tb.CPU.wb_sel_ID processor_tb.tb.CPU.wb_sel_MEM processor_tb.tb.CPU.wb_sel_WB
+Created probe 1
+xcelium> run
+Simulation complete via $finish(1) at time 36820 NS + 0
+./01_tb/tb.sv:28       $finish;
+xcelium> ^C
+xcelium> exit
+TOOL:	xrun(64)	20.09-s001: Exiting on May 17, 2025 at 00:43:04 EDT  (total: 00:47:47)

@@ -1,0 +1,69 @@
+xrun(64): 20.09-s001: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+TOOL:	xrun(64)	20.09-s001: Started on May 25, 2025 at 08:15:27 EDT
+xrun
+	-gui
+	tb.sv
+	../rtl/NO_SRAM/CSR.sv
+	../rtl/NO_SRAM/EX_MEM.sv
+	../rtl/NO_SRAM/ID_EX.sv
+	../rtl/NO_SRAM/IF_ID.sv
+	../rtl/NO_SRAM/IMEM.sv
+	../rtl/NO_SRAM/MEM_WB.sv
+	../rtl/NO_SRAM/PC.sv
+	../rtl/NO_SRAM/PCNEXT.sv
+	../rtl/NO_SRAM/alu.sv
+	../rtl/NO_SRAM/apb_master.sv
+	../rtl/NO_SRAM/branch_predictor.sv
+	../rtl/NO_SRAM/brc.sv
+	../rtl/NO_SRAM/ctrl_unit.sv
+	../rtl/NO_SRAM/forward_unit.sv
+	../rtl/NO_SRAM/hazard_unit.sv
+	../rtl/NO_SRAM/immgen.sv
+	../rtl/NO_SRAM/lsu.sv
+	../rtl/NO_SRAM/machine_control.sv
+	../rtl/NO_SRAM/pc_ctrl_taken.sv
+	../rtl/NO_SRAM/pc_intr.sv
+	../rtl/NO_SRAM/pipelined.sv
+	../rtl/NO_SRAM/processor.sv
+	../rtl/NO_SRAM/regfile.sv
+	../rtl/NO_SRAM/sll.sv
+	../rtl/NO_SRAM/sra.sv
+	../rtl/NO_SRAM/srl.sv
+	../rtl/NO_SRAM/plic/apb_rw.sv
+	../rtl/NO_SRAM/plic/edge_detection.sv
+	../rtl/NO_SRAM/plic/int_sensing.sv
+	../rtl/NO_SRAM/plic/intr_ctrl.sv
+	../rtl/NO_SRAM/plic/pri_deter.sv
+	../rtl/NO_SRAM/timer/clk_sel.sv
+	../rtl/NO_SRAM/timer/compare.sv
+	../rtl/NO_SRAM/timer/counter.sv
+	../rtl/NO_SRAM/timer/rw_control.sv
+	../rtl/NO_SRAM/timer/timer.sv
+	../rtl/NO_SRAM/uart/BCLK_Generator.sv
+	../rtl/NO_SRAM/uart/apb_interface.sv
+	../rtl/NO_SRAM/uart/apb_uart_top.sv
+	../rtl/NO_SRAM/uart/uart_receiver.sv
+	../rtl/NO_SRAM/uart/uart_transmitter.sv
+	+access+rcw
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
+xcelium> source /opt/cadence/XCELIUM2009/tools/xcelium/files/xmsimrc
+xcelium> database -open waves -into waves.shm -default
+Created default SHM database waves
+xcelium> probe -create -shm processor_tb.tb.CPU.I_flag processor_tb.tb.CPU.alu_data_EX processor_tb.tb.CPU.alu_data_MEM processor_tb.tb.CPU.alu_data_WB processor_tb.tb.CPU.alu_op_EX processor_tb.tb.CPU.alu_op_ID processor_tb.tb.CPU.apb_en processor_tb.tb.CPU.br_equal processor_tb.tb.CPU.br_less processor_tb.tb.CPU.br_un_EX processor_tb.tb.CPU.br_un_ID processor_tb.tb.CPU.csr_en processor_tb.tb.CPU.csr_op processor_tb.tb.CPU.csr_rdata_EX processor_tb.tb.CPU.csr_rdata_ID processor_tb.tb.CPU.data4wrcsr processor_tb.tb.CPU.e_irq processor_tb.tb.CPU.excep_en processor_tb.tb.CPU.exception_cause processor_tb.tb.CPU.flush_EX processor_tb.tb.CPU.flush_EX_trap processor_tb.tb.CPU.flush_ID processor_tb.tb.CPU.flush_ID_trap processor_tb.tb.CPU.flush_MEM processor_tb.tb.CPU.flush_WB processor_tb.tb.CPU.forward_ASel processor_tb.tb.CPU.forward_BSel processor_tb.tb.CPU.hazard_full processor_tb.tb.CPU.i_clk processor_tb.tb.CPU.i_io_btn processor_tb.tb.CPU.i_io_sw processor_tb.tb.CPU.i_rst_n processor_tb.tb.CPU.imm_data_EX processor_tb.tb.CPU.imm_data_ID processor_tb.tb.CPU.insn_vld_EX processor_tb.tb.CPU.insn_vld_ID processor_tb.tb.CPU.insn_vld_MEM processor_tb.tb.CPU.insn_vld_WB processor_tb.tb.CPU.instr_EX processor_tb.tb.CPU.instr_ID processor_tb.tb.CPU.instr_IF processor_tb.tb.CPU.instr_MEM processor_tb.tb.CPU.instr_WB processor_tb.tb.CPU.intr_cause processor_tb.tb.CPU.intr_en processor_tb.tb.CPU.ld_data_MEM processor_tb.tb.CPU.ld_data_WB processor_tb.tb.CPU.ld_data_sel processor_tb.tb.CPU.ld_en_EX processor_tb.tb.CPU.ld_en_ID processor_tb.tb.CPU.ld_en_MEM processor_tb.tb.CPU.lsu_wren_EX processor_tb.tb.CPU.lsu_wren_ID processor_tb.tb.CPU.lsu_wren_MEM processor_tb.tb.CPU.meie processor_tb.tb.CPU.meip processor_tb.tb.CPU.mepc processor_tb.tb.CPU.mie processor_tb.tb.CPU.mret processor_tb.tb.CPU.mret_status processor_tb.tb.CPU.mtie processor_tb.tb.CPU.mtip processor_tb.tb.CPU.nxt_pc processor_tb.tb.CPU.o_io_hex0 processor_tb.tb.CPU.o_io_hex1 processor_tb.tb.CPU.o_io_hex2 processor_tb.tb.CPU.o_io_hex3 processor_tb.tb.CPU.o_io_hex4 processor_tb.tb.CPU.o_io_hex5 processor_tb.tb.CPU.o_io_hex6 processor_tb.tb.CPU.o_io_hex7 processor_tb.tb.CPU.o_io_lcd processor_tb.tb.CPU.o_io_ledg processor_tb.tb.CPU.o_io_ledr processor_tb.tb.CPU.opa_sel_EX processor_tb.tb.CPU.opa_sel_ID processor_tb.tb.CPU.opb_sel_EX processor_tb.tb.CPU.opb_sel_ID processor_tb.tb.CPU.operand_a processor_tb.tb.CPU.operand_b processor_tb.tb.CPU.paddr processor_tb.tb.CPU.pc4save processor_tb.tb.CPU.pc_EX processor_tb.tb.CPU.pc_ID processor_tb.tb.CPU.pc_IF processor_tb.tb.CPU.pc_MEM processor_tb.tb.CPU.pc_WB processor_tb.tb.CPU.pc_enable processor_tb.tb.CPU.pc_sel processor_tb.tb.CPU.pc_sel_BTB_EX processor_tb.tb.CPU.pc_sel_BTB_ID processor_tb.tb.CPU.pc_sel_BTB_IF processor_tb.tb.CPU.pc_src processor_tb.tb.CPU.pc_trap processor_tb.tb.CPU.pcsel_urg processor_tb.tb.CPU.penable processor_tb.tb.CPU.prdata_plic processor_tb.tb.CPU.prdata_timer processor_tb.tb.CPU.prdata_uart processor_tb.tb.CPU.pready processor_tb.tb.CPU.predict_pc_EX processor_tb.tb.CPU.predict_pc_ID processor_tb.tb.CPU.predict_pc_IF processor_tb.tb.CPU.psel_plic processor_tb.tb.CPU.psel_timer processor_tb.tb.CPU.psel_uart processor_tb.tb.CPU.pwdata processor_tb.tb.CPU.pwrite processor_tb.tb.CPU.rd_wren_EX processor_tb.tb.CPU.rd_wren_ID processor_tb.tb.CPU.rd_wren_MEM processor_tb.tb.CPU.rd_wren_WB processor_tb.tb.CPU.restore_pc processor_tb.tb.CPU.rs1_csr_op processor_tb.tb.CPU.rs1_data_EX processor_tb.tb.CPU.rs1_data_ID processor_tb.tb.CPU.rs1_data_sel processor_tb.tb.CPU.rs2_data_EX processor_tb.tb.CPU.rs2_data_ID processor_tb.tb.CPU.rs2_data_MEM processor_tb.tb.CPU.rs2_data_sel processor_tb.tb.CPU.stall_EX processor_tb.tb.CPU.stall_ID processor_tb.tb.CPU.stall_MEM processor_tb.tb.CPU.stall_WB processor_tb.tb.CPU.status_EX processor_tb.tb.CPU.status_ID processor_tb.tb.CPU.status_IF processor_tb.tb.CPU.t_irq processor_tb.tb.CPU.to_cpu_data processor_tb.tb.CPU.trans_trigger processor_tb.tb.CPU.vecto_no processor_tb.tb.CPU.wb_data_WB processor_tb.tb.CPU.wb_sel_EX processor_tb.tb.CPU.wb_sel_ID processor_tb.tb.CPU.wb_sel_MEM processor_tb.tb.CPU.wb_sel_WB
+Created probe 1
+xcelium> run
+Simulation complete via $finish(1) at time 36820 NS + 0
+./tb.sv:28       $finish;
+xcelium> reset
+xmsim: *W,DSEM2009: This SystemVerilog design is simulated as per IEEE 1800-2009 SystemVerilog simulation semantics. Use -disable_sem2009 option for turning off SV 2009 simulation semantics.
+Loaded snapshot worklib.processor_tb:sv
+xcelium> probe -create -shm processor_tb.tb.CPU.regfile.reg_addr
+Created probe 2
+xcelium> run
+Simulation complete via $finish(1) at time 36820 NS + 0
+./tb.sv:28       $finish;
+xcelium> 

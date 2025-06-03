@@ -1,0 +1,87 @@
+*** Message Type: info ***
+When: Sun May 25 05:45:15 EDT 2025
+SimVision started.
+Version: TOOL:  simvision(64)   20.09-s001
+User: admin
+Host: centos7
+Platform: Linux/x86_64/3.10.0-1160.108.1.el7.x86_64
+Started: Sun May 25 05:45:15 EDT 2025
+Command: /opt/cadence/XCELIUM2009/tools.lnx86/simvision/bin/64bit/simvision.exe -connect dc:centos7:36132 -64BIT -nocopyright
+Work Directory: /mnt/hgfs/chiase/RISC_Interrupt/tb
+ 
+*** Message Type: info ***
+When: Sun May 25 05:45:18 EDT 2025
+Create browser window: "Design Browser 1"
+ 
+*** Message Type: info ***
+When: Sun May 25 05:45:25 EDT 2025
+Create console window: "Console"
+ 
+*** Message Type: info ***
+When: Sun May 25 05:45:35 EDT 2025
+Connect to Simulator
+      Design: worklib.processor_tb:sv
+   Languages: verilog
+   Simulator: XM-Sim
+     Version: TOOL:    xmsim(64)       20.09-s001
+        User: admin
+        Host: centos7
+Time Started: Sun May 25 05:45:08 EDT 2025
+  Process ID: 22275
+   Directory: /mnt/hgfs/chiase/RISC_Interrupt/tb
+     Command: xrun -gui tb.sv ../rtl/NO_SRAM/CSR.sv ../rtl/NO_SRAM/EX_MEM.sv ../rtl/NO_SRAM/ID_EX.sv ../rtl/NO_SRAM/IF_ID.sv ../rtl/NO_SRAM/IMEM.sv ../rtl/NO_SRAM/MEM_WB.sv ../rtl/NO_SRAM/PC.sv ../rtl/NO_SRAM/PCNEXT.sv ../rtl/NO_SRAM/alu.sv ../rtl/NO_SRAM/apb_master.sv ../rtl/NO_SRAM/branch_predictor.sv ../rtl/NO_SRAM/brc.sv ../rtl/NO_SRAM/ctrl_unit.sv ../rtl/NO_SRAM/forward_unit.sv ../rtl/NO_SRAM/hazard_unit.sv ../rtl/NO_SRAM/immgen.sv ../rtl/NO_SRAM/lsu.sv ../rtl/NO_SRAM/machine_control.sv ../rtl/NO_SRAM/pc_ctrl_taken.sv ../rtl/NO_SRAM/pc_intr.sv ../rtl/NO_SRAM/pipelined.sv ../rtl/NO_SRAM/processor.sv ../rtl/NO_SRAM/regfile.sv ../rtl/NO_SRAM/sll.sv ../rtl/NO_SRAM/sra.sv ../rtl/NO_SRAM/srl.sv ../rtl/NO_SRAM/plic/apb_rw.sv ../rtl/NO_SRAM/plic/edge_detection.sv ../rtl/NO_SRAM/plic/int_sensing.sv ../rtl/NO_SRAM/plic/intr_ctrl.sv ../rtl/NO_SRAM/plic/pri_deter.sv ../rtl/NO_SRAM/timer/clk_sel.sv ../rtl/NO_SRAM/timer/compare.sv ../rtl/NO_SRAM/timer/counter.sv ../rtl/NO_SRAM/timer/rw_control.sv ../rtl/NO_SRAM/timer/timer.sv ../rtl/NO_SRAM/uart/BCLK_Generator.sv ../rtl/NO_SRAM/uart/apb_interface.sv ../rtl/NO_SRAM/uart/apb_uart_top.sv ../rtl/NO_SRAM/uart/uart_receiver.sv ../rtl/NO_SRAM/uart/uart_transmitter.sv +access+rcw
+
+ 
+*** Message Type: info ***
+When: Sun May 25 05:45:37 EDT 2025
+Create utility window: "Properties"
+ 
+*** Message Type: info ***
+When: Sun May 25 05:46:25 EDT 2025
+Create waveform window: "Waveform 1"
+ 
+*** Message Type: info ***
+When: Sun May 25 05:47:20 EDT 2025
+Create source window: "Source Browser 1"
+ 
+*** Message Type: info ***
+When: Sun May 25 05:47:26 EDT 2025
+Delete source window: "Source Browser 1"
+ 
+*** Message Type: error ***
+When: Sun May 25 05:47:27 EDT 2025
+invalid command name ".srcBrowser0"
+    while executing
+"$srcb traceSignal driver $traceH"
+    (object "::windows" method "::Windows::showsource" body line 74)
+    invoked from within
+"# Compiled -- no source code available
+error "called a copy of a compiled script""
+    (procedure "util::doCause" line 1)
+    invoked from within
+"util::doCause $hndl -time $time -marker $itk_option(-markerprimary)"
+    (object "::.waveWindow0" method "::WaveWindow::_doGotoCause" body line 54)
+    invoked from within
+"_doGotoCause $cnode"
+    ("@goto-cause" arm line 2)
+    invoked from within
+"switch -glob -- $dclickpref {
+            @no-action {
+               # Do nothing
+       }
+            @goto-cause {
+                _doGotoCause $cnode
+            }
+           ..."
+    (object "::.waveWindow0" method "::WaveWindow::_moveCursor" body line 337)
+    invoked from within
+"::.waveWindow0 _moveCursor cursor 18 345 -double"
+    (in namespace inscope "::WaveWindow" script line 1)
+    invoked from within
+"namespace inscope ::WaveWindow {::.waveWindow0 _moveCursor cursor 18 345 -double}"
+    (command bound to event)
+ 
+*** Message Type: info ***
+When: Sun May 25 05:49:42 EDT 2025
+SimVision Exit.
+ 
