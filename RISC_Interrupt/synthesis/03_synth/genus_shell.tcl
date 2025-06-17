@@ -1,10 +1,5 @@
 
 ##################################################
-#
-#Khai Pham 
-#HCMUT LAB 203 
-#
-##################################################
 #file setup variables#
 set top_module synth_wrapper
 #set_db auto_ungroup none
