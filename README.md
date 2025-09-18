@@ -1,2 +1,1 @@
-It's been just one week since I joined Ampere Computing as an intern, and I already feel incredibly grateful for this opportunity. From day one, I’ve been welcomed into a culture that truly lives by “work hard, play hard, and have fun.” Everyone here is so supportive and willing to help, which makes it feel less like a company and more like a team that wants you to succeed. I can already tell this is the best place to learn, grow, and challenge myself. I’ll do my best to complete my tasks well, learn new things every day, and make this internship not only a valuable learning journey but also one filled with unforgettable memories.
-
+https://flowcv.com/resume/rh3jtcsaub
