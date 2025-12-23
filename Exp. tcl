@@ -1,24 +1,30 @@
-# Only process generated clocks
-if {$is_generated eq "TRUE"} {
+# Clock ban đầu
+set cur_clk $clockname
 
-    # Start tracing from current clock
-    set cur_clk $clockname
+# Mặc định master_clock là None
+set master_clock "None"
 
+# Kiểm tra clock ban đầu có phải generated không
+set is_generated [get_att [get_clock $cur_clk] is_generated]
+
+if {$is_generated} {
+    # Nếu là generated thì truy ngược lên master clock
     while {1} {
+        # Lấy master clock của clock hiện tại
+        set parent_clk [get_object_name \
+            [get_att [get_clock $cur_clk] master_clock]]
 
-        # Get master clock of current clock
-        set next_clk \
-            [get_object_name [get_attribute [get_clock $cur_clk] master_clock]]
+        # Kiểm tra parent clock có phải generated không
+        set parent_is_generated \
+            [get_att [get_clock $parent_clk] is_generated]
 
-        # No master means current clock is root
-        if {$next_clk eq ""} {
+        if {$parent_is_generated} {
+            # Nếu vẫn là generated → tiếp tục truy
+            set cur_clk $parent_clk
+        } else {
+            # Nếu KHÔNG generated → đây là master clock cuối cùng
+            set master_clock $parent_clk
             break
         }
-
-        # Move upward
-        set cur_clk $next_clk
     }
-
-    # cur_clk is now the ROOT clock
-    set master_clock $cur_clk
 }
