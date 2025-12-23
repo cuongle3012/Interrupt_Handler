@@ -1,30 +1,42 @@
-# Clock ban đầu
+# Initial clock
 set cur_clk $clockname
 
-# Mặc định master_clock là None
+# Default value for master clock only
+# Clock source name is already initialized outside this code
 set master_clock "None"
 
-# Kiểm tra clock ban đầu có phải generated không
+# Check whether the initial clock is a generated clock
 set is_generated [get_att [get_clock $cur_clk] is_generated]
 
 if {$is_generated} {
-    # Nếu là generated thì truy ngược lên master clock
+
+    # Trace back through the generated clock chain
     while {1} {
-        # Lấy master clock của clock hiện tại
+        # Get master clock of the current generated clock
         set parent_clk [get_object_name \
             [get_att [get_clock $cur_clk] master_clock]]
 
-        # Kiểm tra parent clock có phải generated không
+        # Check if the parent clock is also a generated clock
         set parent_is_generated \
             [get_att [get_clock $parent_clk] is_generated]
 
         if {$parent_is_generated} {
-            # Nếu vẫn là generated → tiếp tục truy
+            # Parent is still a generated clock → continue tracing
             set cur_clk $parent_clk
         } else {
-            # Nếu KHÔNG generated → đây là master clock cuối cùng
+            # Parent is the root (non-generated) clock
             set master_clock $parent_clk
+
+            # Update clock source name using the root master clock
+            # (overwrite the initial clock source name)
+            set clocksrc     [get_att [get_clock $master_clock] sources]
+            set clocksrcname [get_att $clocksrc full_name]
+
             break
         }
     }
 }
+
+# If the initial clock is NOT generated:
+#   - master_clock remains "None"
+#   - clocksrcname keeps its original value
