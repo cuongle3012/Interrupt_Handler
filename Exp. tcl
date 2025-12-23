@@ -1,141 +1,125 @@
-############################################################
-# Input file (space-separated text)
-############################################################
-set infile "data.txt"
+# Input file name
+set file_name "test.txt"
 
-############################################################
-# STEP 1: Read clock information
-# Build:
-#   - clock_exist(clock)  : clock name exists in file
-#   - master_of(clock)   : direct master clock
-#   - is_generated(clock): TRUE / FALSE
-############################################################
-set fp [open $infile r]
-gets $fp   ;# Skip header
+# Column Index Definitions (Based on 0-indexing of 7 columns)
+set IDX_NAME 0
+set IDX_IS_GEN 2
+set IDX_MASTER_SRC 3
+set IDX_MASTER_PORT 4
+set IDX_SINKS 5
+set IDX_LATENCY 6
 
-array set clock_exist {}
-array set master_of {}
-array set is_generated {}
 
-while {[gets $fp line] >= 0} {
-    set f [split $line]
+# --- Data Structures ---
+# clock_map: {clock_name} -> {list of raw tokens} for easy lookup in tracing
+array set clock_map {}
+# clock_list: List of parsed rows for iteration
+set clock_list {}
+# latency_groups: {Root_Master_Clock:Master_Port} -> {Total_Sinks Total_Weighted_Latency}
+array set latency_groups {}
 
-    set clk    [lindex $f 0]
-    set isgen  [lindex $f 2]
-    set master [lindex $f 3]
 
-    set clock_exist($clk) 1
-    set is_generated($clk) $isgen
-
-    if {$master ne "" && $master ne "-"} {
-        set master_of($clk) $master
-    }
-}
-close $fp
-
-############################################################
-# FUNCTION: Find ROOT clock
-# Rules:
-# 1. Only called for is_generated == TRUE clocks
-# 2. Always check master clock first
-# 3. If master exists in clock list:
-#    - If master is generated -> continue tracing
-#    - If master is NOT generated -> master is root
-# 4. If master does not exist -> master is root
-############################################################
-proc get_root_clock {clk master_of_name is_generated_name clock_exist_name} {
-    upvar $master_of_name master_of
-    upvar $is_generated_name is_generated
-    upvar $clock_exist_name clock_exist
-
-    set cur $clk
-    set visited {}
+# --- Function to Trace Root Master Clock ---
+# Follows the master_clock_source until it hits an undefined clock (the root).
+proc get_root_master_clock {clock_name map} {
+    upvar $map clock_map
+    set current_clock $clock_name
 
     while {1} {
-        # Protect against infinite loop
-        if {[lsearch -exact $visited $cur] >= 0} {
-            return $cur
+        if {[info exists clock_map($current_clock)]} {
+            set properties [lindex $clock_map($current_clock) 0]
+            set master_src [lindex $properties $::IDX_MASTER_SRC] 
+
+            if {[info exists clock_map($master_src)]} {
+                set current_clock $master_src
+            } else {
+                return $master_src
+            }
+        } else {
+            return $current_clock
         }
-        lappend visited $cur
-
-        # If no master clock, current clock is root
-        if {![info exists master_of($cur)]} {
-            return $cur
-        }
-
-        set master $master_of($cur)
-
-        # If master clock does not exist in clock list, use it as root
-        if {![info exists clock_exist($master)]} {
-            return $master
-        }
-
-        # If master exists but is NOT generated, it is root
-        if {![info exists is_generated($master)] || $is_generated($master) ne "TRUE"} {
-            return $master
-        }
-
-        # Master is generated -> continue tracing upward
-        set cur $master
     }
 }
 
-############################################################
-# STEP 2: Group and calculate (ONLY generated clocks)
-# - Group by ROOT clock
-# - Sum sinks
-# - Sum weighted latency (latency × sinks)
-############################################################
-set fp [open $infile r]
-gets $fp   ;# Skip header
 
-array set sum_sink {}
-array set sum_weight {}
-array set last_info {}
+# --- STEP 1: Read File and Load Data ---
+if {[catch {open $file_name r} file_handle]} {
+    puts "ERROR: Cannot open file $file_name."
+    exit 1
+}
 
-while {[gets $fp line] >= 0} {
-    set f [split $line]
+while {[gets $file_handle line] >= 0} {
+    # Split line by whitespace, ignoring empty lines
+    set tokens [regexp -all -inline {\S+} [string trim $line]]
+    if {[llength $tokens] != 7} continue
+    # Skip header row
+    if {[lindex $tokens $IDX_NAME] eq "Clock"} continue
 
-    set clk     [lindex $f 0]
-    set period  [lindex $f 1]
-    set isgen   [lindex $f 2]
-    set port    [lindex $f 4]
-    set sinks   [lindex $f 5]
-    set latency [lindex $f 6]
+    # Store raw tokens for tracing and essential fields for calculation
+    set name [lindex $tokens $IDX_NAME]
+    set is_gen [lindex $tokens $IDX_IS_GEN]
+    set master_src [lindex $tokens $IDX_MASTER_SRC]
+    set master_port [lindex $tokens $IDX_MASTER_PORT]
+    set sinks [lindex $tokens $IDX_SINKS]
+    set latency [lindex $tokens $IDX_LATENCY]
+    
+    set clock_map($name) [list $tokens]
+    lappend clock_list [list $name $is_gen $master_src $master_port $sinks $latency]
+}
+close $file_handle
 
-    # Only handle generated clocks
-    if {$isgen ne "TRUE"} {
-        continue
+
+# --- STEP 2: Process, Trace, and Group Data ---
+foreach clock_info $clock_list {
+    set is_gen [lindex $clock_info 1]
+    
+    # Only process generated clocks (is_generated = TRUE)
+    if {[string toupper $is_gen] eq "TRUE"} {
+        set master_src [lindex $clock_info 2]
+        set master_port [lindex $clock_info 3]
+        set sinks [lindex $clock_info 4]
+        set latency [lindex $clock_info 5]
+
+        # Trace back to the root clock
+        set root_master [get_root_master_clock $master_src clock_map]
+        set group_key "${root_master}:${master_port}"
+        
+        # Calculate weighted latency (Sinks * Latency)
+        set weighted_latency [expr {int($sinks) * int($latency)}]
+        
+        # Update group totals
+        if {[info exists latency_groups($group_key)]} {
+            set current_total_sinks [lindex $latency_groups($group_key) 0]
+            set current_total_weighted_latency [lindex $latency_groups($group_key) 1]
+            
+            set new_total_sinks [expr {int($current_total_sinks) + int($sinks)}]
+            set new_total_weighted_latency [expr {int($current_total_weighted_latency) + $weighted_latency}]
+            
+            set latency_groups($group_key) [list $new_total_sinks $new_total_weighted_latency]
+        } else {
+            set latency_groups($group_key) [list $sinks $weighted_latency]
+        }
     }
-
-    # Find root clock
-    set root [get_root_clock $clk master_of is_generated clock_exist]
-
-    # Accumulate sinks
-    incr sum_sink($root) $sinks
-
-    # Accumulate weighted latency
-    set sum_weight($root) \
-        [expr {[info exists sum_weight($root)] \
-        ? $sum_weight($root) + $latency * $sinks \
-        : $latency * $sinks}]
-
-    # Save last line info for output
-    set last_info($root) [list $period $port]
 }
-close $fp
 
-############################################################
-# STEP 3: Output result
-# - One output per ROOT clock
-# - Latency is weighted average
-############################################################
-foreach root [lsort [array names sum_sink]] {
-    lassign $last_info($root) period port
 
-    set final_latency [expr {$sum_weight($root) / double($sum_sink($root))}]
-    set final_latency [format "%.3f" $final_latency]
+# --- STEP 3: Output set_clock_latency Commands ---
+puts "\n# --- set_clock_latency Commands Output ---"
 
-    puts "# clock=$root period=$period sinks=$sum_sink($root)"
-    puts "set latency -source $root -($final_latency) \[get_port $port\] -clock $root\n"
+foreach group_key [array names latency_groups] {
+    set total_sinks [lindex $latency_groups($group_key) 0]
+    set total_weighted_latency [lindex $latency_groups($group_key) 1]
+    
+    set root_master [lindex [split $group_key ":"] 0]
+    set master_port [lindex [split $group_key ":"] 1]
+    
+    if {$total_sinks > 0} {
+        # Calculate Weighted Average Latency (Total Weighted Latency / Total Sinks)
+        set final_latency [expr {double($total_weighted_latency) / $total_sinks}]
+        set result [format "%.3f" $final_latency]
+        
+        # Print final command
+        puts "set_clock_latency -source $result \[get_port $master_port\] -clock $root_master"
+    }
 }
+puts "# -----------------------------------------"
