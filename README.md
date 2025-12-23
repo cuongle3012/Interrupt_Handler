@@ -1,1 +1,39 @@
 https://flowcv.com/resume/rh3jtcsaub
+# Mở file
+set fp [open data.txt r]
+
+# Bỏ dòng header
+gets $fp
+
+# Hash để lưu tổng
+array set sum_num {}
+array set sum_den {}
+
+while {[gets $fp line] >= 0} {
+    # Parse các cột
+    set clk   [lindex $line 0]
+    set isgen [lindex $line 1]
+    set port  [lindex $line 2]
+    set col4  [lindex $line 3]
+    set col5  [lindex $line 4]
+
+    # Điều kiện lọc
+    if {$isgen eq "true"} {
+        # Tử số: col4 * col5
+        set sum_num($port) [expr {[info exists sum_num($port)] ? \
+            $sum_num($port) + $col4 * $col5 : $col4 * $col5}]
+
+        # Mẫu số: col4
+        set sum_den($port) [expr {[info exists sum_den($port)] ? \
+            $sum_den($port) + $col4 : $col4}]
+    }
+}
+
+close $fp
+
+# In kết quả
+foreach port [array names sum_num] {
+    set result [expr {$sum_num($port) / $sum_den($port)}]
+
+    puts "set latency -source $result \[get_pins $port\] (clock $port)"
+}
