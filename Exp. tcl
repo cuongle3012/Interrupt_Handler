@@ -4,14 +4,16 @@
 set infile "data.txt"
 
 ############################################################
-# STEP 1: Read clock relationships
+# STEP 1: Read clock information
 # Build:
-#   - master_of(clock) -> master clock
-#   - is_generated(clock) -> TRUE / FALSE
+#   - clock_exist(clock)  : clock name exists in file
+#   - master_of(clock)   : direct master clock
+#   - is_generated(clock): TRUE / FALSE
 ############################################################
 set fp [open $infile r]
 gets $fp   ;# Skip header
 
+array set clock_exist {}
 array set master_of {}
 array set is_generated {}
 
@@ -22,54 +24,65 @@ while {[gets $fp line] >= 0} {
     set isgen  [lindex $f 2]
     set master [lindex $f 3]
 
-    set master_of($clk)    $master
+    set clock_exist($clk) 1
     set is_generated($clk) $isgen
+
+    if {$master ne "" && $master ne "-"} {
+        set master_of($clk) $master
+    }
 }
 close $fp
 
 ############################################################
-# FUNCTION: Find the root master clock
-# - Follow master clock chain upward
-# - Stop when clock is no longer generated
+# FUNCTION: Find ROOT clock
+# Rules:
+# 1. Only called for is_generated == TRUE clocks
+# 2. Always check master clock first
+# 3. If master exists in clock list:
+#    - If master is generated -> continue tracing
+#    - If master is NOT generated -> master is root
+# 4. If master does not exist -> master is root
 ############################################################
-proc get_root_clock {clk master_of_name is_generated_name} {
+proc get_root_clock {clk master_of_name is_generated_name clock_exist_name} {
     upvar $master_of_name master_of
     upvar $is_generated_name is_generated
+    upvar $clock_exist_name clock_exist
 
     set cur $clk
     set visited {}
 
     while {1} {
-        # Prevent infinite loop
+        # Protect against infinite loop
         if {[lsearch -exact $visited $cur] >= 0} {
             return $cur
         }
         lappend visited $cur
 
-        # If clock is not generated, this is the root
-        if {![info exists is_generated($cur)] || $is_generated($cur) ne "TRUE"} {
-            return $cur
-        }
-
-        # If no master is defined, stop here
+        # If no master clock, current clock is root
         if {![info exists master_of($cur)]} {
             return $cur
         }
 
-        set next $master_of($cur)
+        set master $master_of($cur)
 
-        # Self reference means root
-        if {$next eq $cur} {
-            return $cur
+        # If master clock does not exist in clock list, use it as root
+        if {![info exists clock_exist($master)]} {
+            return $master
         }
 
-        # Move up to the master clock
-        set cur $next
+        # If master exists but is NOT generated, it is root
+        if {![info exists is_generated($master)] || $is_generated($master) ne "TRUE"} {
+            return $master
+        }
+
+        # Master is generated -> continue tracing upward
+        set cur $master
     }
 }
 
 ############################################################
-# STEP 2: Group data by ROOT CLOCK
+# STEP 2: Group and calculate (ONLY generated clocks)
+# - Group by ROOT clock
 # - Sum sinks
 # - Sum weighted latency (latency × sinks)
 ############################################################
@@ -90,33 +103,36 @@ while {[gets $fp line] >= 0} {
     set sinks   [lindex $f 5]
     set latency [lindex $f 6]
 
-    if {$isgen eq "TRUE"} {
-        # Find real root master clock
-        set root [get_root_clock $clk master_of is_generated]
-
-        # Add sinks
-        incr sum_sink($root) $sinks
-
-        # Add weighted latency
-        set sum_weight($root) \
-            [expr {[info exists sum_weight($root)] \
-            ? $sum_weight($root) + $latency * $sinks \
-            : $latency * $sinks}]
-
-        # Save info from last line for output
-        set last_info($root) [list $period $port]
+    # Only handle generated clocks
+    if {$isgen ne "TRUE"} {
+        continue
     }
+
+    # Find root clock
+    set root [get_root_clock $clk master_of is_generated clock_exist]
+
+    # Accumulate sinks
+    incr sum_sink($root) $sinks
+
+    # Accumulate weighted latency
+    set sum_weight($root) \
+        [expr {[info exists sum_weight($root)] \
+        ? $sum_weight($root) + $latency * $sinks \
+        : $latency * $sinks}]
+
+    # Save last line info for output
+    set last_info($root) [list $period $port]
 }
 close $fp
 
 ############################################################
-# STEP 3: Print final result
-# One output per ROOT CLOCK
+# STEP 3: Output result
+# - One output per ROOT clock
+# - Latency is weighted average
 ############################################################
 foreach root [lsort [array names sum_sink]] {
     lassign $last_info($root) period port
 
-    # Final latency = weighted average
     set final_latency [expr {$sum_weight($root) / double($sum_sink($root))}]
     set final_latency [format "%.3f" $final_latency]
 
